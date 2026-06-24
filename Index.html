@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Masuk - Web Promosi Warmindo</title>
+    <!-- Menghubungkan ke file CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="start-page-layout">
+
+    <div id="promo-screen" class="promo-screen">
+        <button class="btn-close-promo" onclick="tutupPromo()">&#10005;</button>
+
+        <div class="promo-slider">
+            <div class="promo-slide">
+                <img src="img/Katalog1.png" alt="Promo 1">
+            </div>
+            <div class="promo-slide">
+                <img src="img/Katalog2.png" alt="Promo 2">
+            </div>
+            <div class="promo-slide">
+                <img src="https://via.placeholder.com/400x400?text=Promo+3" alt="Promo 3">
+            </div>
+        </div>
+
+        <div class="promo-hint">Geser ke kiri &#8594;</div>
+    </div>
+    
+    <!-- Header Kosong -->
+    <header></header>
+
+    <!-- Konten Form -->
+    <main>
+        <div class="login-container">
+            <h2>Mulai Pesan</h2>
+            <form id="formMasuk">
+                <div class="form-group">
+                    <label for="username">Nama Pemesan</label>
+                    <input type="text" id="username" placeholder="Masukkan nama" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="meja">Nomor Meja</label>
+                    <input type="number" id="meja" placeholder="Contoh: 04" required min="1">
+                </div>
+
+                <button type="submit" class="btn-masuk">Masuk</button>
+            </form>
+        </div>
+    </main>
+
+    <!-- Footer Kosong -->
+    <footer></footer>
+
+    <!-- Menghubungkan ke file JavaScript -->
+    <script src="script.js"></script>
+</body>
+</html>

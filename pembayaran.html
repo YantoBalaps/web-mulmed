@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pembayaran - Warmindo</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="payment-body">
+
+    <div class="app-container">
+        
+        <div class="page-header card-header">
+            <h2 class="page-title">💳 Pembayaran</h2>
+            <button class="btn-back" onclick="window.location.href='menu.html'">&#10005;</button>
+        </div>
+
+        <div class="order-summary-card">
+            <h3>Detail Tagihan</h3>
+            <div class="order-info">
+                <p>Nama: <span id="pay-nama" class="bold-text">-</span></p>
+                <p>Meja: <span id="pay-meja" class="bold-text">-</span></p>
+            </div>
+            <div class="total-amount">
+                <p>Total Bayar</p>
+                <h1 id="pay-total">Rp 0</h1>
+            </div>
+        </div>
+
+        <div class="payment-methods">
+            <h3>Pilih Metode:</h3>
+            <div class="method-buttons">
+                <button class="btn-method" id="btn-qris" onclick="pilihMetode('qris')">QRIS</button>
+                <button class="btn-method" id="btn-cash" onclick="pilihMetode('cash')">Tunai (Cash)</button>
+            </div>
+        </div>
+
+        <div id="qris-section" class="payment-section hidden">
+            <div class="cash-instruction">
+                <span class="icon-cash">📱</span>
+                <p><strong>Pembayaran via QRIS Kasir</strong></p>
+                <p class="instruction-text">Silakan tunggu di meja, pesananmu sedang diproses. Saat dipanggil, silakan menuju meja kasir untuk scan QRIS.</p>
+            </div>
+            <button class="btn-checkout" onclick="selesaikanPesanan('QRIS')">Kirim Pesanan via WhatsApp</button>
+        </div>
+
+        <div id="cash-section" class="payment-section hidden">
+            <div class="cash-instruction">
+                <span class="icon-cash">💵</span>
+                <p><strong>Pembayaran Tunai</strong></p>
+                <p class="instruction-text">Silakan tunggu di meja, pesananmu sedang diproses. Saat dipanggil, silakan lakukan pembayaran tunai di meja kasir.</p>
+            </div>
+            <button class="btn-checkout" onclick="selesaikanPesanan('Tunai')">Kirim Pesanan via WhatsApp</button>
+        </div>
+
+    </div>
+
+    <script>
+        // Mengambil data dari Session Storage saat halaman dimuat
+        document.addEventListener("DOMContentLoaded", function() {
+            const nama = sessionStorage.getItem('namaPelanggan') || 'Tanpa Nama';
+            const meja = sessionStorage.getItem('nomorMeja') || '-';
+            const cartData = JSON.parse(sessionStorage.getItem('cartData')) || {};
+
+            document.getElementById('pay-nama').innerText = nama;
+            document.getElementById('pay-meja').innerText = meja;
+
+            // Hitung total tagihan
+            let total = 0;
+            for (let menu in cartData) {
+                total += cartData[menu].harga * cartData[menu].qty;
+            }
+            document.getElementById('pay-total').innerText = 'Rp ' + total.toLocaleString('id-ID');
+
+            // Jika keranjang kosong, kembalikan ke menu
+            if (total === 0) {
+                alert("Keranjang kosong!");
+                window.location.href = "menu.html";
+            }
+        });
+
+        // Fungsi untuk mengganti tampilan berdasarkan metode yang dipilih
+        function pilihMetode(metode) {
+            const btnQris = document.getElementById('btn-qris');
+            const btnCash = document.getElementById('btn-cash');
+            const qrisSection = document.getElementById('qris-section');
+            const cashSection = document.getElementById('cash-section');
+
+            // Reset tampilan
+            btnQris.classList.remove('active');
+            btnCash.classList.remove('active');
+            qrisSection.classList.add('hidden');
+            cashSection.classList.add('hidden');
+
+            // Tampilkan yang dipilih
+            if (metode === 'qris') {
+                btnQris.classList.add('active');
+                qrisSection.classList.remove('hidden');
+            } else if (metode === 'cash') {
+                btnCash.classList.add('active');
+                cashSection.classList.remove('hidden');
+            }
+        }
+
+        // Fungsi menembak API Fonnte saat tombol ditekan
+        async function selesaikanPesanan(metodeBayar) {
+            // Ambil data dari memori browser
+            const nama = sessionStorage.getItem('namaPelanggan') || 'Tanpa Nama';
+            const meja = sessionStorage.getItem('nomorMeja') || '-';
+            const cartData = JSON.parse(sessionStorage.getItem('cartData')) || {};
+
+            // 1. Susun format pesan
+            let teksWA = `*PESANAN BARU MASUK* 🍜\n\n`;
+            teksWA += `👤 Atas Nama: ${nama}\n`;
+            teksWA += `🪑 Meja: ${meja}\n`;
+            teksWA += `💳 Metode: *${metodeBayar}*\n\n`;
+            teksWA += `*Daftar Pesanan:*\n`;
+
+            let total = 0;
+            for (let menu in cartData) {
+                let item = cartData[menu];
+                let subtotal = item.harga * item.qty;
+                total += subtotal;
+                teksWA += `- ${menu} (${item.qty}x) = Rp ${subtotal.toLocaleString('id-ID')}\n`;
+            }
+            teksWA += `\n*Total Tagihan: Rp ${total.toLocaleString('id-ID')}*`;
+
+            // 2. Konfigurasi Fonnte
+            const tokenFonnte = "MASUKKAN_TOKEN_FONNTE_DI_SINI"; // Ganti dengan token akunmu
+            const nomorTujuan = "083863466124"; // Nomor kasir/dapur yang akan menerima pesan
+
+            // Menampilkan status loading di tombol
+            const btn = event.target;
+            const teksAwal = btn.innerText;
+            btn.innerText = "Memproses Pesanan...";
+            btn.disabled = true;
+
+            try {
+                // 3. Tembak data ke API Fonnte
+                const response = await fetch("https://api.fonnte.com/send", {
+                    method: "POST",
+                    headers: {
+                        "Authorization": "ZeQqu6nV2uxjEZPQYRUX"
+                    },
+                    body: new URLSearchParams({
+                        "target": nomorTujuan,
+                        "message": teksWA,
+                        "countryCode": "62"
+                    })
+                });
+
+                const result = await response.json();
+
+                if (result.status === true) {
+                    alert("Pesanan berhasil dikirim ke dapur! Silakan tunggu panggilan.");
+                    sessionStorage.removeItem('cartData');
+                    window.location.href = "index.html"; 
+                } else {
+                    alert("Gagal mengirim pesanan: " + result.reason);
+                    btn.innerText = teksAwal;
+                    btn.disabled = false;
+                }
+
+            } catch (error) {
+                alert("Terjadi kesalahan jaringan. Coba lagi.");
+                btn.innerText = teksAwal;
+                btn.disabled = false;
+            }
+        }
+    </script>
+</body>
+</html>

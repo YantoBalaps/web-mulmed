@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aneka Minuman Panas - Warmindo</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="app-container">
+        
+        <div class="main-header">
+            <div class="header-content">
+                <img src="img/logo.png" alt="Logo Warmindo" class="brand-logo">
+                
+                <div class="header-text">
+                    <h1 class="brand-name">Warmindo Pojok</h1>
+                    <p class="slogan">"Kalo enak kasih tau temanmu, kalo ga enak kasih tau kami"</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="page-header card-header">
+            <h2 class="page-title">☕ Aneka Minuman Panas</h2>
+            <button class="btn-back" onclick="window.location.href='menu.html'">&#8592;</button>
+        </div>
+
+        <div class="menu-list">
+            
+            <div class="menu-item-card">
+                <img src="https://via.placeholder.com/300x200?text=Ayam+Geprek" alt="Susu Panas" class="item-img" onclick="window.location.href='susu-panas.html'" style="cursor:pointer;">
+                <div class="item-info" onclick="window.location.href='susu-panas.html'" style="cursor:pointer;">
+                    <h3>Susu Panas</h3>
+                    <p class="item-price">Rp 3.000</p>
+                </div>
+                <div class="qty-control">
+                    <button class="qty-btn" onclick="updateQty('Susu Panas', 3000, -1)">-</button>
+                    <input type="number" id="qty-Susu Panas" class="qty-input" value="0" readonly>
+                    <button class="qty-btn" onclick="updateQty('Susu Panas', 3000, 1)">+</button>
+                </div>
+            </div>
+
+            <div class="menu-item-card">
+                <img src="https://via.placeholder.com/300x200?text=Ayam+Geprek" alt="Teh Panas" class="item-img" onclick="window.location.href='teh-panas.html'" style="cursor:pointer;">
+                <div class="item-info" onclick="window.location.href='teh-panas.html'" style="cursor:pointer;">
+                    <h3>Teh Panas</h3>
+                    <p class="item-price">Rp 2.000</p>
+                </div>
+                <div class="qty-control">
+                    <button class="qty-btn" onclick="updateQty('Teh Panas', 2000, -1)">-</button>
+                    <input type="number" id="qty-Teh Panas" class="qty-input" value="0" readonly>
+                    <button class="qty-btn" onclick="updateQty('Teh Panas', 2000, 1)">+</button>
+                </div>
+            </div>
+
+            <div class="menu-item-card">
+                <img src="https://via.placeholder.com/300x200?text=Ayam+Geprek" alt="Kopi Panas" class="item-img" onclick="window.location.href='kopi-panas.html'" style="cursor:pointer;">
+                <div class="item-info" onclick="window.location.href='kopi-panas.html'" style="cursor:pointer;">
+                    <h3>Kopi Panas</h3>
+                    <p class="item-price">Rp 5.000</p>
+                </div>
+                <div class="qty-control">
+                    <button class="qty-btn" onclick="updateQty('Kopi Panas', 5000, -1)">-</button>
+                    <input type="number" id="qty-Kopi Panas" class="qty-input" value="0" readonly>
+                    <button class="qty-btn" onclick="updateQty('Kopi Panas', 5000, 1)">+</button>
+                </div>
+            </div>
+
+            <div class="menu-item-card">
+                <img src="https://via.placeholder.com/300x200?text=Ayam+Geprek" alt="Kopi Susu Panas" class="item-img" onclick="window.location.href='kopi-susu-panas.html'" style="cursor:pointer;">
+                <div class="item-info" onclick="window.location.href='kopi-susu-panas.html'" style="cursor:pointer;">
+                    <h3>Kopi Susu Panas</h3>
+                    <p class="item-price">Rp 6.000</p>
+                </div>
+                <div class="qty-control">
+                    <button class="qty-btn" onclick="updateQty('Kopi Susu Panas', 6000, -1)">-</button>
+                    <input type="number" id="qty-Kopi Susu Panas" class="qty-input" value="0" readonly>
+                    <button class="qty-btn" onclick="updateQty('Kopi Susu Panas', 6000, 1)">+</button>
+                </div>
+            </div>
+
+            <div class="menu-item-card">
+                <img src="https://via.placeholder.com/300x200?text=Ayam+Geprek" alt="Jeruk Panas" class="item-img" onclick="window.location.href='jeruk-panas.html'" style="cursor:pointer;">
+                <div class="item-info" onclick="window.location.href='jeruk-panas.html'" style="cursor:pointer;">
+                    <h3>Jeruk Panas</h3>
+                    <p class="item-price">Rp 4.000</p>
+                </div>
+                <div class="qty-control">
+                    <button class="qty-btn" onclick="updateQty('Jeruk Panas', 4000, -1)">-</button>
+                    <input type="number" id="qty-Jeruk Panas" class="qty-input" value="0" readonly>
+                    <button class="qty-btn" onclick="updateQty('Jeruk Panas', 4000, 1)">+</button>
+                </div>
+            </div>
+
+        </div>
+
+        <button class="floating-cart" onclick="toggleCart()">
+            🛒 <span id="cart-badge" class="cart-badge">0</span>
+        </button>
+
+        <div id="cart-overlay" class="cart-overlay" onclick="toggleCart()"></div>
+
+        <div id="cart-drawer" class="cart-drawer">
+            <div class="drawer-header">
+                <h3>Daftar Pesanan</h3>
+                <button class="close-drawer" onclick="toggleCart()">&#10005;</button>
+            </div>
+            
+            <div id="cart-items-container" class="cart-items-container">
+                <p class="empty-cart-msg">Keranjang masih kosong</p>
+            </div>
+
+            <div class="drawer-footer">
+                <div class="total-section">
+                    <span>Total:</span>
+                    <span id="cart-total" class="total-price">Rp 0</span>
+                </div>
+                <div class="action-buttons">
+                    <button class="btn-continue-shop" onclick="toggleCart()">Lanjut Belanja</button>
+                    <button class="btn-checkout" onclick="prosesPembayaran()">Lanjut Pembayaran</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="main-footer">
+            <p>📍 Gg. Gebang Lama I No.6, Jetis, Wedomartani, Kec. Ngemplak, Kabupaten Sleman, Daerah Istimewa Yogyakarta 55584</p>
+            <p style="font-size: 12px; font-weight: normal; margin-top: 5px;">Buka dari 06.00 PM - 03.00 AM • <span class="teks-kuning">Free WiFi</span> </p>
+        </div>
+
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

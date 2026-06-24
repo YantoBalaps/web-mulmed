@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mie - Warmindo</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="app-container">
+        
+        <div class="main-header">
+            <div class="header-content">
+                <img src="img/logo.png" alt="Logo Warmindo" class="brand-logo">
+                
+                <div class="header-text">
+                    <h1 class="brand-name">Warmindo Pojok</h1>
+                    <p class="slogan">"Kalo enak kasih tau temanmu, kalo ga enak kasih tau kami"</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="page-header card-header">
+            <h2 class="page-title">🍜 Mie</h2>
+            <button class="btn-back" onclick="window.location.href='menu.html'">&#8592;</button>
+        </div>
+
+        <div class="menu-list">
+            
+            <div class="menu-item-card">
+                <img src="https://via.placeholder.com/300x200?text=Ayam+Geprek" alt="Mie Goreng" class="item-img" onclick="window.location.href='mie-goreng.html'" style="cursor:pointer;">
+                <div class="item-info" onclick="window.location.href='mie-goreng.html'" style="cursor:pointer;">
+
+                    <span class="badge-custom">✨ Bisa Custom</span>
+
+                    <h3>Mie Goreng</h3>
+                    <p class="item-price">Rp 7.000</p>
+                </div>
+                <div class="qty-control">
+                    <button class="qty-btn" onclick="updateQty('Mie Goreng', 7000, -1)">-</button>
+                    <input type="number" id="qty-Mie Goreng" class="qty-input" value="0" readonly>
+                    <button class="qty-btn" onclick="updateQty('Mie Goreng', 7000, 1)">+</button>
+                </div>
+            </div>
+
+            <div class="menu-item-card">
+                <img src="https://via.placeholder.com/300x200?text=Ayam+Geprek" alt="Mie Kuah" class="item-img" onclick="window.location.href='mie-kuah.html'" style="cursor:pointer;">
+                <div class="item-info" onclick="window.location.href='mie-kuah.html'" style="cursor:pointer;">
+
+                    <span class="badge-custom">✨ Bisa Custom</span>
+
+                    <h3>Mie Kuah</h3>
+                    <p class="item-price">Rp 7.000</p>
+                </div>
+                <div class="qty-control">
+                    <button class="qty-btn" onclick="updateQty('Mie Kuah', 7000, -1)">-</button>
+                    <input type="number" id="qty-Mie Kuah" class="qty-input" value="0" readonly>
+                    <button class="qty-btn" onclick="updateQty('Mie Kuah', 7000, 1)">+</button>
+                </div>
+            </div>
+
+            <div class="menu-item-card">
+                <img src="https://via.placeholder.com/300x200?text=Ayam+Geprek" alt="Mie Nyemek" class="item-img" onclick="window.location.href='mie-nyemek.html'" style="cursor:pointer;">
+                <div class="item-info" onclick="window.location.href='mie-nyemek.html'" style="cursor:pointer;">
+
+                    <span class="badge-custom">✨ Bisa Custom</span>
+
+                    <h3>Mie Nyemek</h3>
+                    <p class="item-price">Rp 8.000</p>
+                </div>
+                <div class="qty-control">
+                    <button class="qty-btn" onclick="updateQty('Mie Nyemek', 8000, -1)">-</button>
+                    <input type="number" id="qty-Mie Nyemek" class="qty-input" value="0" readonly>
+                    <button class="qty-btn" onclick="updateQty('Mie Nyemek', 8000, 1)">+</button>
+                </div>
+            </div>
+
+        </div>
+
+        <button class="floating-cart" onclick="toggleCart()">
+            🛒 <span id="cart-badge" class="cart-badge">0</span>
+        </button>
+
+        <div id="cart-overlay" class="cart-overlay" onclick="toggleCart()"></div>
+
+        <div id="cart-drawer" class="cart-drawer">
+            <div class="drawer-header">
+                <h3>Daftar Pesanan</h3>
+                <button class="close-drawer" onclick="toggleCart()">&#10005;</button>
+            </div>
+            
+            <div id="cart-items-container" class="cart-items-container">
+                <p class="empty-cart-msg">Keranjang masih kosong</p>
+            </div>
+
+            <div class="drawer-footer">
+                <div class="total-section">
+                    <span>Total:</span>
+                    <span id="cart-total" class="total-price">Rp 0</span>
+                </div>
+                <div class="action-buttons">
+                    <button class="btn-continue-shop" onclick="toggleCart()">Lanjut Belanja</button>
+                    <button class="btn-checkout" onclick="prosesPembayaran()">Lanjut Pembayaran</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="main-footer">
+            <p>📍 Gg. Gebang Lama I No.6, Jetis, Wedomartani, Kec. Ngemplak, Kabupaten Sleman, Daerah Istimewa Yogyakarta 55584</p>
+            <p style="font-size: 12px; font-weight: normal; margin-top: 5px;">Buka dari 06.00 PM - 03.00 AM • <span class="teks-kuning">Free WiFi</span> </p>
+        </div>
+
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detail Kopi Susu Panas</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container detail-container">
+        
+        <div class="page-header card-header">
+            <h2 class="page-title">☕ Detail Menu</h2>
+            <button class="btn-back" onclick="window.location.href='panas.html'">&#10005;</button>
+        </div>
+
+        <div class="diagram-wrapper">
+            <div class="node-main">
+                <img src="img/nasi-telur-polos.png" alt="Menu Utama">
+            </div>
+        </div>
+
+        <div class="detail-desc">
+            <h3>Rincian Kopi Susu Panas:</h3>
+            <ul>
+                <li>Air Panas + Kopi Susu</li>
+            </ul>
+            <div class="price-tag">Rp 6.000</div>
+        </div>
+        
+        <div class="bottom-qty-wrapper">
+            <div class="qty-control">
+                <button class="qty-btn" onclick="updateQty('Kopi Susu Panas', 6000, -1)">-</button>
+                <input type="number" id="qty-Kopi Susu Panas" class="qty-input" value="0" readonly>
+                <button class="qty-btn" onclick="updateQty('Kopi Susu Panas', 6000, 1)">+</button>
+            </div>
+        </div>
+
+        <button class="floating-cart" onclick="toggleCart()">🛒 <span id="cart-badge" class="cart-badge">0</span></button>
+        
+        <div id="cart-overlay" class="cart-overlay" onclick="toggleCart()"></div>
+        <div id="cart-drawer" class="cart-drawer">
+            <div class="drawer-header">
+                <h3>Daftar Pesanan</h3>
+                <button class="close-drawer" onclick="toggleCart()">&#10005;</button>
+            </div>
+            <div id="cart-items-container" class="cart-items-container"></div>
+            <div class="drawer-footer">
+                <div class="total-section">
+                    <span>Total:</span>
+                    <span id="cart-total" class="total-price">Rp 0</span>
+                </div>
+                <div class="action-buttons">
+                    <button class="btn-continue-shop" onclick="toggleCart()">Lanjut Belanja</button>
+                    <button class="btn-checkout" onclick="prosesPembayaran()">Lanjut Pembayaran</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

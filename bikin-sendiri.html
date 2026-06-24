@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bikin Makananmu - Warmindo</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="custom-body">
+
+    <div class="app-container detail-container">
+        
+        <div class="page-header card-header">
+            <h2 class="page-title" id="ui-title">🍳 Bikin Sendiri</h2>
+            <button class="btn-back" onclick="history.back()">&#8592;</button>
+        </div>
+
+        <div class="workspace">
+            <p style="text-align: center; color: #7f8c8d; font-size: 14px;">
+                Tarik bahan-bahan di bawah ini ke atas piringmu!
+            </p>
+
+            <div id="plate" class="plate-zone">
+                <img src="" id="ui-main-img" class="main-food-img" alt="Piring Utama">
+            </div>
+
+            <div class="ingredients-shelf">
+                <h3>Pilihan Tambahan Bahan:</h3>
+                <div id="ui-shelf" class="shelf-items"></div>
+            </div>
+
+            <div class="control-box">
+                <button class="btn-reset" onclick="resetBahan()">Reset</button>
+                <button class="btn-save-custom" onclick="simpanCustomDinamis()">Tambah ke Keranjang</button>
+            </div>
+        </div>
+
+        <button class="floating-cart" onclick="toggleCart()">
+            🛒 <span id="cart-badge" class="cart-badge">0</span>
+        </button>
+
+        <div id="cart-overlay" class="cart-overlay" onclick="toggleCart()"></div>
+        <div id="cart-drawer" class="cart-drawer">
+            <div class="drawer-header">
+                <h3>Daftar Pesanan</h3>
+                <button class="close-drawer" onclick="toggleCart()">&#10005;</button>
+            </div>
+            <div id="cart-items-container" class="cart-items-container"></div>
+            <div class="drawer-footer">
+                <div class="total-section">
+                    <span>Total:</span>
+                    <span id="cart-total" class="total-price">Rp 0</span>
+                </div>
+                <div class="action-buttons">
+                    <button class="btn-continue-shop" onclick="toggleCart()">Lanjut Belanja</button>
+                    <button class="btn-checkout" onclick="prosesPembayaran()">Lanjut Pembayaran</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="script.js"></script>
+
+    <script>
+        let menuAktifID = sessionStorage.getItem('menuAktif');
+        let dataMenu = dataMenuCustom[menuAktifID];
+        let bahanPiring = [];
+        let hitungBahan = {}; // BARU: Memori untuk mencatat jumlah tiap bahan
+
+        const plate = document.getElementById('plate');
+        const mainImg = document.getElementById('ui-main-img');
+
+        if (!dataMenu) {
+            window.location.href = 'menu.html';
+        }
+
+        // ==========================================
+        // 1. RENDER AWAL
+        // ==========================================
+        document.getElementById('ui-title').innerText = "Bikin " + dataMenu.namaUtama;
+        mainImg.src = dataMenu.piringKosong;
+
+        const shelf = document.getElementById('ui-shelf');
+        dataMenu.pilihanBahan.forEach(bahan => {
+            hitungBahan[bahan.id] = 0; // Set awal hitungan ke 0
+
+            let img = document.createElement('img');
+            img.src = bahan.gambar;
+            img.className = 'drag-item';
+            img.setAttribute('data-bahan', bahan.id);
+            img.alt = bahan.nama;
+            
+            img.addEventListener('pointerdown', onPointerDown);
+            shelf.appendChild(img);
+        });
+
+        // ==========================================
+        // 2. LOGIKA DRAG & LIMITER
+        // ==========================================
+        function onPointerDown(e) {
+            const item = e.target;
+            const shiftX = e.clientX - item.getBoundingClientRect().left;
+            const shiftY = e.clientY - item.getBoundingClientRect().top;
+
+            item.style.position = 'fixed';
+            item.style.zIndex = 1000;
+            
+            moveAt(e.clientX, e.clientY);
+
+            function moveAt(clientX, clientY) {
+                item.style.left = clientX - shiftX + 'px';
+                item.style.top = clientY - shiftY + 'px';
+            }
+
+            function onPointerMove(e) {
+                moveAt(e.clientX, e.clientY);
+            }
+
+            document.addEventListener('pointermove', onPointerMove);
+
+            item.onpointerup = function(event) {
+                document.removeEventListener('pointermove', onPointerMove);
+                item.onpointerup = null;
+
+                const plateRect = plate.getBoundingClientRect();
+                const itemRect = item.getBoundingClientRect();
+
+                const diDalamPiringX = itemRect.left + itemRect.width/2 > plateRect.left && itemRect.left + itemRect.width/2 < plateRect.right;
+                const diDalamPiringY = itemRect.top + itemRect.height/2 > plateRect.top && itemRect.top + itemRect.height/2 < plateRect.bottom;
+
+                if (diDalamPiringX && diDalamPiringY) {
+                    const idBahan = item.getAttribute('data-bahan');
+                    const bahanInfo = dataMenu.pilihanBahan.find(b => b.id === idBahan);
+
+                    // LOGIKA BARU: Jika mode single, bersihkan gelas dulu sebelum diisi yang baru
+                    if (dataMenu.mode === "single") {
+                        bahanPiring = []; // Kosongkan memori gelas
+                        for (let key in hitungBahan) hitungBahan[key] = 0; // Reset hitungan
+                        // Kembalikan semua sachet rasa ke rak
+                        document.querySelectorAll('.drag-item').forEach(el => el.style.display = 'inline-block');
+                    }
+
+                    // Cek apakah belum melebihi kuota batas maksimal
+                    if (hitungBahan[idBahan] < bahanInfo.max) {
+                        hitungBahan[idBahan]++; 
+                        bahanPiring.push(idBahan); 
+
+                        if (hitungBahan[idBahan] >= bahanInfo.max) {
+                            item.style.display = 'none';
+                        }
+                        
+                        updateGambarPiring();
+                    }
+                }
+
+                item.style.position = 'static';
+                item.style.zIndex = 10;
+                item.style.left = 'auto';
+                item.style.top = 'auto';
+            };
+        }
+
+        // ==========================================
+        // 3. FUNGSI UPDATE GAMBAR & KERANJANG
+        // ==========================================
+        function updateGambarPiring() {
+            if (bahanPiring.length === 0) {
+                mainImg.src = dataMenu.piringKosong;
+                return;
+            }
+            let kombinasi = bahanPiring.sort().join('-');
+            mainImg.src = `${dataMenu.prefixGambar}-${kombinasi}.png`;
+        }
+
+        function resetBahan() {
+            bahanPiring = [];
+            for (let key in hitungBahan) {
+                hitungBahan[key] = 0; // Kembalikan semua hitungan jadi 0
+            }
+            mainImg.src = dataMenu.piringKosong;
+            const dragItems = document.querySelectorAll('.drag-item');
+            dragItems.forEach(item => {
+                item.style.display = 'inline-block'; 
+            });
+        }
+
+        function simpanCustomDinamis() {
+            let arrayTambahan = [];
+            let hargaTopping = 0;
+
+            // Merakit teks dan menghitung harga masing-masing bahan
+            for (let id in hitungBahan) {
+                if (hitungBahan[id] > 0) {
+                    const bahanInfo = dataMenu.pilihanBahan.find(b => b.id === id);
+                    
+                    // Kalikan harga bahan dengan jumlah tarikan
+                    hargaTopping += (bahanInfo.harga * hitungBahan[id]);
+
+                    // Format teks jika lebih dari 1 (Contoh: "2 Telur")
+                    if (hitungBahan[id] > 1) {
+                        arrayTambahan.push(`${hitungBahan[id]} ${bahanInfo.nama}`);
+                    } else {
+                        arrayTambahan.push(bahanInfo.nama);
+                    }
+                }
+            }
+
+            let tambahan = arrayTambahan.length > 0 ? " + " + arrayTambahan.join(", ") : "";
+            let namaMenuCustom = dataMenu.namaUtama + tambahan;
+            let hargaTotal = dataMenu.hargaDasar + hargaTopping;
+
+            let cartData = JSON.parse(sessionStorage.getItem('cartData')) || {};
+
+            if (cartData[namaMenuCustom]) {
+                cartData[namaMenuCustom].qty += 1;
+            } else {
+                cartData[namaMenuCustom] = { harga: hargaTotal, qty: 1 };
+            }
+
+            sessionStorage.setItem('cartData', JSON.stringify(cartData));
+            cart = cartData;
+            updateCartUI();
+            resetBahan();
+            toggleCart();
+        }
+    </script>
+</body>
+</html>
