@@ -3,48 +3,75 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detail Nasi Telur Ori</title>
+    <title>Detail Nasi Telur Ceplok</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="app-container detail-container">
         
-        <div class="page-header card-header">
-            <h2 class="page-title">🥗 Detail Menu</h2>
-            <button class="btn-back" onclick="window.location.href='nasi-telur.html'">&#10005;</button>
+        <!-- Page Header -->
+        <div class="page-header">
+            <button class="btn-back" onclick="window.location.href='nasi-telur.html'">←</button>
+            <h2 class="page-title">🍳 Detail Menu</h2>
+            <div style="width: 44px;"></div>
         </div>
 
-        <div class="diagram-wrapper">
-            <div class="node-main">
-                <img src="img/nasi-telur-polos.png" alt="Menu Utama">
+        <!-- Main Food Display - Full Width -->
+        <div class="main-food-hero">
+            <div class="main-food-image">
+                <img src="img/Nasi_Telur_Ceplok.png" alt="Nasi Telur Ceplok" onerror="this.style.display='none'">
+                <div class="main-food-fallback"></div>
+            </div>
+            
+            <!-- Floating Ingredients - 3 items -->
+            <div class="floating-ingredients">
+                <div class="float-item fi-item-1-3">
+                    <img src="https://img.icons8.com/emoji/80/rice.png" alt="Nasi">
+                    <span>Nasi</span>
+                </div>
+                <div class="float-item fi-item-2-3">
+                    <img src="https://img.icons8.com/emoji/80/fried-egg.png" alt="Telur">
+                    <span>Telur</span>
+                </div>
+                <div class="float-item fi-item-3-3">
+                    <img src="https://img.icons8.com/emoji/80/chili-pepper.png" alt="Sambal">
+                    <span>Sambal</span>
+                </div>
             </div>
         </div>
 
+        <!-- Detail Description -->
         <div class="detail-desc">
-            <h3>Rincian Nasi Telur Original:</h3>
+            <h3>📋 Rincian Isian</h3>
             <ul>
-                <li>Nasi Putih Hangat</li>
-                <li>Telur Ceplok / Dadar</li>
-                <li>Sambal Kecap</li>
+                <li>Nasi Putih Hangat premium</li>
+                <li>Telur Ceplok goreng sempurna</li>
+                <li>Sambal Kecap manis pedas</li>
             </ul>
             <div class="price-tag">Rp 8.000</div>
         </div>
         
+        <!-- Quantity Control -->
         <div class="bottom-qty-wrapper">
             <div class="qty-control">
-                <button class="qty-btn" onclick="updateQty('Nasi Telur Ori', 8000, -1)">-</button>
+                <button class="qty-btn" onclick="updateQty('Nasi Telur Ori', 8000, -1)">−</button>
                 <input type="number" id="qty-Nasi Telur Ori" class="qty-input" value="0" readonly>
                 <button class="qty-btn" onclick="updateQty('Nasi Telur Ori', 8000, 1)">+</button>
             </div>
         </div>
 
+        <!-- Floating Cart -->
+        <button class="floating-cart" onclick="toggleCart()">🛒 <span id="cart-badge" class="cart-badge">0</span></button>
+        
         <div id="cart-overlay" class="cart-overlay" onclick="toggleCart()"></div>
         <div id="cart-drawer" class="cart-drawer">
             <div class="drawer-header">
                 <h3>Daftar Pesanan</h3>
-                <button class="close-drawer" onclick="toggleCart()">&#10005;</button>
+                <button class="close-drawer" onclick="toggleCart()">✕</button>
             </div>
-            <div id="cart-items-container" class="cart-items-container"></div>
+            <div id="cart-items-container" class="cart-items-container">
+                <p class="empty-cart-msg">Keranjang masih kosong</p>
+            </div>
             <div class="drawer-footer">
                 <div class="total-section">
                     <span>Total:</span>
@@ -56,7 +83,6 @@
                 </div>
             </div>
         </div>
-
     </div>
     <script src="script.js"></script>
 </body>

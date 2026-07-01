@@ -3,6 +3,9 @@
 // ==========================================
 let cart = JSON.parse(sessionStorage.getItem('cartData')) || {};
 let autoSlideTimer;
+let promoCloseTimer;
+let progressBarTimer;
+let slideIndex = 0;
 
 // ==========================================
 // SAAT HALAMAN SELESAI DIMUAT (INISIALISASI)
@@ -22,31 +25,78 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     }
 
-    // 2. Logika Slide Promo (Support Mouse Drag & Auto Slide)
-    const slider = document.querySelector('.promo-slider');
-    if (slider) {
-        let slideIndex = 0;
+    // 2. Logika Promo Slider
+    const promoScreen = document.getElementById('promo-screen');
+    if (promoScreen) {
+        const slider = document.getElementById('promo-slider');
+        const progressBar = document.getElementById('promo-progress-bar');
+        const dots = document.querySelectorAll('.promo-dot');
         const totalSlides = document.querySelectorAll('.promo-slide').length;
+
+        // Fungsi update progress bar
+        function updateProgressBar() {
+            const progress = ((slideIndex + 1) / totalSlides) * 100;
+            progressBar.style.width = progress + '%';
+        }
+
+        // Fungsi update dots
+        function updateDots() {
+            dots.forEach((dot, i) => {
+                dot.classList.toggle('active', i === slideIndex);
+            });
+        }
+
+        // Fungsi geser ke slide tertentu
+        function goToSlide(index) {
+            slideIndex = index;
+            if (slideIndex >= totalSlides) slideIndex = 0;
+            if (slideIndex < 0) slideIndex = totalSlides - 1;
+            
+            slider.scrollTo({
+                left: slider.clientWidth * slideIndex,
+                behavior: 'smooth'
+            });
+            updateDots();
+            updateProgressBar();
+            
+            // Reset progress bar animation
+            progressBar.style.transition = 'none';
+            progressBar.style.width = '0%';
+            setTimeout(() => {
+                progressBar.style.transition = 'width 3s linear';
+                updateProgressBar();
+            }, 50);
+        }
 
         // Fungsi untuk menyalakan/mengulang auto-slide
         function mulaiAutoSlide() {
-            clearInterval(autoSlideTimer); // Bersihkan timer lama
+            clearInterval(autoSlideTimer);
+            
             autoSlideTimer = setInterval(() => {
                 slideIndex++;
-                if (slideIndex >= totalSlides) {
-                    slideIndex = 0;
-                }
-                slider.scrollTo({
-                    left: slider.clientWidth * slideIndex,
-                    behavior: 'smooth'
-                });
+                goToSlide(slideIndex);
             }, 3000);
         }
 
+        // Auto close promo setelah 10 detik
+        promoCloseTimer = setTimeout(() => {
+            tutupPromo();
+        }, 10000);
+
         // Jalankan auto-slide pertama kali
         mulaiAutoSlide();
+        updateDots();
+        updateProgressBar();
 
-        // --- LOGIKA KHUSUS KLIK & TARIK MOUSE DI PC ---
+        // Klik dots untuk navigasi
+        dots.forEach((dot, i) => {
+            dot.addEventListener('click', () => {
+                goToSlide(i);
+                mulaiAutoSlide();
+            });
+        });
+
+        // --- LOGIKA MOUSE DRAG ---
         let isDragging = false;
         let startX;
         let scrollLeftPos;
@@ -55,32 +105,66 @@ document.addEventListener("DOMContentLoaded", function() {
             isDragging = true;
             startX = e.pageX - slider.offsetLeft;
             scrollLeftPos = slider.scrollLeft;
-            clearInterval(autoSlideTimer); // Hentikan auto-slide saat lagi ditarik
+            clearInterval(autoSlideTimer);
         });
 
         slider.addEventListener('mousemove', (e) => {
             if (!isDragging) return;
             e.preventDefault(); 
             const x = e.pageX - slider.offsetLeft;
-            const walk = (x - startX); // Kecepatan tarik
+            const walk = (x - startX);
             slider.scrollLeft = scrollLeftPos - walk;
         });
 
         slider.addEventListener('mouseup', () => {
             isDragging = false;
-            // Evaluasi posisi slide sekarang setelah ditarik
-            slideIndex = Math.round(slider.scrollLeft / slider.clientWidth);
-            mulaiAutoSlide(); // Nyalakan lagi auto-slide
+            const newSlideIndex = Math.round(slider.scrollLeft / slider.clientWidth);
+            slideIndex = newSlideIndex;
+            updateDots();
+            updateProgressBar();
+            mulaiAutoSlide();
         });
 
         slider.addEventListener('mouseleave', () => {
             isDragging = false;
         });
 
-        // Sinkronisasi untuk sentuhan HP (Touch screen)
+        // --- LOGIKA TOUCH SWIPE ---
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        slider.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+            clearInterval(autoSlideTimer);
+        });
+
+        slider.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+            mulaiAutoSlide();
+        });
+
+        function handleSwipe() {
+            const swipeThreshold = 50;
+            const diff = touchStartX - touchEndX;
+            
+            if (diff > swipeThreshold) {
+                // Swipe kiri -> next slide
+                goToSlide(slideIndex + 1);
+            } else if (diff < -swipeThreshold) {
+                // Swipe kanan -> prev slide
+                goToSlide(slideIndex - 1);
+            }
+        }
+
+        // Sinkronisasi scroll dengan dots
         slider.addEventListener('scroll', () => {
-            if(!isDragging) {
-                slideIndex = Math.round(slider.scrollLeft / slider.clientWidth);
+            if (!isDragging) {
+                const newSlideIndex = Math.round(slider.scrollLeft / slider.clientWidth);
+                if (newSlideIndex !== slideIndex) {
+                    slideIndex = newSlideIndex;
+                    updateDots();
+                }
             }
         });
     }
@@ -101,7 +185,9 @@ function tutupPromo() {
     const promoScreen = document.getElementById('promo-screen');
     if(promoScreen) {
         promoScreen.classList.add('hidden');
-        clearInterval(autoSlideTimer); // Matikan timer agar hemat memori
+        clearInterval(autoSlideTimer);
+        clearTimeout(promoCloseTimer);
+        clearInterval(progressBarTimer);
     }
 }
 
@@ -213,8 +299,8 @@ const dataMenuCustom = {
     "ayam-geprek": {
         namaUtama: "Nasi Ayam Geprek",
         hargaDasar: 15000,
-        piringKosong: "img/katalog-2.png", // Gambar awal (polos)
-        prefixGambar: "img/geprek", // Awalan nama file untuk gambar kombinasi
+        piringKosong: "img/katalog-2.png",
+        prefixGambar: "img/geprek",
         pilihanBahan: [
             { id: "keju", nama: "Keju", gambar: "img/keju.png" },
             { id: "telur", nama: "Telur", gambar: "img/telur.png" },
@@ -249,7 +335,6 @@ const dataMenuCustom = {
         piringKosong: "img/mie-polos.png", 
         prefixGambar: "img/mie-goreng",
         pilihanBahan: [
-            // Tambahkan parameter harga dan max (batas tarikan)
             { id: "mie", nama: "Ekstra Mie", gambar: "img/mie-ekstra.png", harga: 1500, max: 2 },
             { id: "telur", nama: "Telur", gambar: "img/telur.png", harga: 3000, max: 2 },
             { id: "sayur", nama: "Sayur", gambar: "img/sayur.png", harga: 0, max: 1 } 
@@ -261,7 +346,6 @@ const dataMenuCustom = {
         piringKosong: "img/mie-polos.png", 
         prefixGambar: "img/mie-kuah",
         pilihanBahan: [
-            // Tambahkan parameter harga dan max (batas tarikan)
             { id: "mie", nama: "Ekstra Mie", gambar: "img/mie-ekstra.png", harga: 1500, max: 2 },
             { id: "telur", nama: "Telur", gambar: "img/telur.png", harga: 3000, max: 2 },
             { id: "sayur", nama: "Sayur", gambar: "img/sayur.png", harga: 0, max: 1 } 
@@ -273,7 +357,6 @@ const dataMenuCustom = {
         piringKosong: "img/mie-polos.png", 
         prefixGambar: "img/mie-kuah",
         pilihanBahan: [
-            // Tambahkan parameter harga dan max (batas tarikan)
             { id: "mie", nama: "Ekstra Mie", gambar: "img/mie-ekstra.png", harga: 1500, max: 2 },
             { id: "telur", nama: "Telur", gambar: "img/telur.png", harga: 3000, max: 2 },
             { id: "sayur", nama: "Sayur", gambar: "img/sayur.png", harga: 0, max: 1 } 
@@ -308,18 +391,16 @@ const dataMenuCustom = {
     "aneka-nutrisari": {
         namaUtama: "Es Nutrisari",
         hargaDasar: 5000,
-        piringKosong: "img/gelas-es.png", // Gambar gelas kosong isi es batu
+        piringKosong: "img/gelas-es.png",
         prefixGambar: "img/nutrisari",
-        mode: "single", // KUNCI UTAMA UNTUK MINUMAN!
+        mode: "single",
         pilihanBahan: [
-            // Harga 0 karena sudah termasuk harga dasar Rp 5.000
             { id: "jeruk", nama: "Rasa Jeruk Sweet", gambar: "img/sachet-jeruk.png", harga: 0, max: 1 },
             { id: "melon", nama: "Rasa Melon", gambar: "img/sachet-melon.png", harga: 0, max: 1 },
             { id: "mangga", nama: "Rasa Mangga", gambar: "img/sachet-mangga.png", harga: 0, max: 1 },
             { id: "anggur", nama: "Rasa Anggur", gambar: "img/sachet-anggur.png", harga: 0, max: 1 }
         ]
     }
-    // Kamu bisa tambah menu lain di sini tanpa perlu bikin file HTML baru!
 };
 
 // Fungsi memicu perpindahan ke halaman Bikin Sendiri
