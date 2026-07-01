@@ -10,90 +10,93 @@
 
     <div class="app-container detail-container">
         
-        <div class="page-header card-header">
+        <!-- Page Header -->
+        <div class="page-header">
+            <button class="btn-back" onclick="window.location.href='mie.html'">←</button>
             <h2 class="page-title">🍜 Detail Menu</h2>
-            <button class="btn-back" onclick="window.location.href='mie.html'">&#10005;</button> </div>
-
-        <div class="diagram-wrapper">
-            
-            <svg class="diagram-lines" width="100%" height="100%">
-                <defs>
-                    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5"
-                        markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-                        <path d="M 0 0 L 10 5 L 0 10 z" fill="#999" />
-                    </marker>
-                </defs>
-                <line x1="50%" y1="50%" x2="22%" y2="28%" stroke="#999" stroke-width="2.5" marker-end="url(#arrow)" />
-                <line x1="50%" y1="50%" x2="78%" y2="28%" stroke="#999" stroke-width="2.5" marker-end="url(#arrow)" />
-                <line x1="50%" y1="50%" x2="50%" y2="82%" stroke="#999" stroke-width="2.5" marker-end="url(#arrow)" />
-            </svg>
-
-            <div class="node-main">
-                <img src="https://via.placeholder.com/200?text=Ayam+Geprek" alt="Menu Utama">
-            </div>
-
-            <div class="node-sub pos-1">
-                <img src="https://via.placeholder.com/60?text=Timun" alt="Timun">
-                <span>Mie</span>
-            </div>
-            <div class="node-sub pos-2">
-                <img src="https://via.placeholder.com/60?text=Cabe" alt="Cabe">
-                <span>Sayur</span>
-            </div>
-            <div class="node-sub pos-3">
-                <img src="https://via.placeholder.com/60?text=Ayam" alt="Ayam Goreng">
-                <span>Bawang goreng</span>
-            </div>
-
+            <div style="width: 44px;"></div>
         </div>
 
+        <!-- Main Food Display - Full Width -->
+        <div class="main-food-hero">
+            <div class="main-food-image">
+                <img src="img/Mie_Nyemek.png" alt="Mie Nyemek" onerror="this.style.display='none'">
+                <div class="main-food-fallback"></div>
+            </div>
+            
+            <!-- Floating Ingredients around the main image -->
+            <div class="floating-ingredients">
+                <div class="float-item fi-nasi-4">
+                    <img src="https://img.icons8.com/emoji/80/noodles.png" alt="Mie">
+                    <span>Mie</span>
+                </div>
+                <div class="float-item fi-ayam-4">
+                    <img src="https://img.icons8.com/emoji/80/egg.png" alt="Telur">
+                    <span>Telur</span>
+                </div>
+                <div class="float-item fi-sambal-4">
+                    <img src="https://img.icons8.com/emoji/80/fried-egg.png" alt="Sayur">
+                    <span>Sayur</span>
+                </div>
+                <div class="float-item fi-lalapan-4">
+                    <img src="https://img.icons8.com/emoji/80/shallot.png" alt="Bawang">
+                    <span>Bawang</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Detail Description -->
         <div class="detail-desc">
-            <h3>Rincian Isian Mie Nyemek:</h3>
+            <h3>📋 Rincian Isian</h3>
             <ul>
-                <li>Mie Hangat</li>
-                <li>Sayuran enak</li>
-                <li>Bawang Goreng</li>
+                <li>Mie Nyemek khas - tidak kering tidak kuah</li>
+                <li>Telur Orak Arik lezat</li>
+                <li>Sayuran segar pilihan</li>
+                <li>Bawang Goreng kriuk</li>
             </ul>
             <div class="price-tag">Rp 8.000</div>
         </div>
         
-        <button onclick="bukaCustom('mie-nyemek')" style="width: 100%; margin-bottom: 20px; padding: 14px; background: linear-gradient(135deg, #f39c12, #d35400); color: white; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; font-size: 16px; box-shadow: 0 4px 10px rgba(211, 84, 0, 0.3); transition: transform 0.2s ease;">
-            ✨ Bikin Makananmu Sendiri
+        <!-- Custom Menu Button -->
+        <button class="btn-custom-menu" onclick="bukaCustom('mie-nyemek')">
+            <span>✨</span> Bikin Makananmu Sendiri
         </button>
         
+        <!-- Quantity Control -->
         <div class="bottom-qty-wrapper">
             <div class="qty-control">
-                <button class="qty-btn" onclick="updateQty('Mie Nyemek', 8000, -1)">-</button>
+                <button class="qty-btn" onclick="updateQty('Mie Nyemek', 8000, -1)">−</button>
                 <input type="number" id="qty-Mie Nyemek" class="qty-input" value="0" readonly>
                 <button class="qty-btn" onclick="updateQty('Mie Nyemek', 8000, 1)">+</button>
             </div>
         </div>
 
-        <button class="floating-cart" onclick="toggleCart()">
-            🛒 <span id="cart-badge" class="cart-badge">0</span>
-        </button>
+    </div>
 
-        <div id="cart-overlay" class="cart-overlay" onclick="toggleCart()"></div>
-        <div id="cart-drawer" class="cart-drawer">
-            <div class="drawer-header">
-                <h3>Daftar Pesanan</h3>
-                <button class="close-drawer" onclick="toggleCart()">&#10005;</button>
+    <!-- Floating Cart -->
+    <button class="floating-cart" onclick="toggleCart()">
+        🛒 <span id="cart-badge" class="cart-badge">0</span>
+    </button>
+
+    <div id="cart-overlay" class="cart-overlay" onclick="toggleCart()"></div>
+    <div id="cart-drawer" class="cart-drawer">
+        <div class="drawer-header">
+            <h3>Daftar Pesanan</h3>
+            <button class="close-drawer" onclick="toggleCart()">✕</button>
+        </div>
+        <div id="cart-items-container" class="cart-items-container">
+            <p class="empty-cart-msg">Keranjang masih kosong</p>
+        </div>
+        <div class="drawer-footer">
+            <div class="total-section">
+                <span>Total:</span>
+                <span id="cart-total" class="total-price">Rp 0</span>
             </div>
-            <div id="cart-items-container" class="cart-items-container">
-                <p class="empty-cart-msg">Keranjang masih kosong</p>
-            </div>
-            <div class="drawer-footer">
-                <div class="total-section">
-                    <span>Total:</span>
-                    <span id="cart-total" class="total-price">Rp 0</span>
-                </div>
-                <div class="action-buttons">
-                    <button class="btn-continue-shop" onclick="toggleCart()">Lanjut Belanja</button>
-                    <button class="btn-checkout" onclick="prosesPembayaran()">Lanjut Pembayaran</button>
-                </div>
+            <div class="action-buttons">
+                <button class="btn-continue-shop" onclick="toggleCart()">Lanjut Belanja</button>
+                <button class="btn-checkout" onclick="prosesPembayaran()">Lanjut Pembayaran</button>
             </div>
         </div>
-
     </div>
 
     <script src="script.js"></script>

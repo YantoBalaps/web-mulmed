@@ -3,37 +3,71 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Masuk - Web Promosi Mulmed Warmindo</title>
-    <!-- Menghubungkan ke file CSS -->
+    <title>Masuk - Warmindo Pojok</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body class="start-page-layout">
 
+    <!-- Promo Splash Screen -->
     <div id="promo-screen" class="promo-screen">
-        <button class="btn-close-promo" onclick="tutupPromo()">&#10005;</button>
+        <!-- Background Overlay -->
+        <div class="promo-overlay"></div>
 
-        <div class="promo-slider">
-            <div class="promo-slide">
-                <img src="img/Katalog1.png" alt="Promo 1">
+        <!-- Progress Bar -->
+        <div class="promo-progress">
+            <div class="promo-progress-bar" id="promo-progress-bar"></div>
+        </div>
+
+        <!-- Promo Container -->
+        <div class="promo-container">
+            <div class="promo-slider" id="promo-slider">
+                <div class="promo-slide active">
+                    <div class="promo-image-wrapper">
+                        <img src="img/Katalog1.png" alt="Promo 1">
+                    </div>
+                    <div class="promo-content">
+                        <h3>Selamat Datang! 🎉</h3>
+                        <p>Nikmati berbagai menu hangat dan lezat dari Warmindo Pojok</p>
+                    </div>
+                </div>
+                <div class="promo-slide">
+                    <div class="promo-image-wrapper">
+                        <img src="img/Katalog2.png" alt="Promo 2">
+                    </div>
+                    <div class="promo-content">
+                        <h3>Promo Spesial 🔥</h3>
+                        <p>Dapatkan berbagai promo menarik setiap hari</p>
+                    </div>
+                </div>
             </div>
-            <div class="promo-slide">
-                <img src="img/Katalog2.png" alt="Promo 2">
+
+            <!-- Navigation Dots -->
+            <div class="promo-dots">
+                <span class="promo-dot active" data-slide="0"></span>
+                <span class="promo-dot" data-slide="1"></span>
             </div>
-            <div class="promo-slide">
-                <img src="https://via.placeholder.com/400x400?text=Promo+3" alt="Promo 3">
+
+            <!-- Swipe Hint -->
+            <div class="promo-hint">
+                <span>Geser untuk melihat promo</span>
+                <div class="promo-arrows">
+                    <span class="arrow-left">◀</span>
+                    <span class="arrow-right">▶</span>
+                </div>
             </div>
         </div>
 
-        <div class="promo-hint">Geser ke kiri &#8594;</div>
+        <!-- Skip Button -->
+        <button class="btn-skip-promo" onclick="tutupPromo()">
+            Lewati →
+        </button>
     </div>
     
-    <!-- Header Kosong -->
     <header></header>
 
-    <!-- Konten Form -->
     <main>
         <div class="login-container">
-            <h2>Mulai Pesan</h2>
+            <h2>🍜 Mulai Pesan</h2>
             <form id="formMasuk">
                 <div class="form-group">
                     <label for="username">Nama Pemesan</label>
@@ -50,10 +84,8 @@
         </div>
     </main>
 
-    <!-- Footer Kosong -->
     <footer></footer>
 
-    <!-- Menghubungkan ke file JavaScript -->
     <script src="script.js"></script>
 </body>
 </html>
