@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nasi Ayam - Warmindo</title>
+    <title>Aneka Gorengan - Warmindo</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -22,57 +22,61 @@
         </div>
 
         <div class="page-header card-header">
-            <h2 class="page-title">🍗 Nasi Ayam</h2>
+            <h2 class="page-title">🥟 Aneka Gorengan</h2>
             <button class="btn-back" onclick="window.location.href='menu.html'">&#8592;</button>
         </div>
 
         <div class="menu-list">
             
             <div class="menu-item-card">
-                <img src="img/Nasi_Ayam_Geprek.png" alt="Nasi Ayam Geprek" class="item-img" onclick="window.location.href='ayam-geprek.html'" style="cursor:pointer;">
-                <div class="item-info" onclick="window.location.href='ayam-geprek.html'" style="cursor:pointer;">
-                    
-                    <span class="badge-custom">✨ Bisa Custom</span>
-                    
-                    <h3>Nasi Ayam Geprek</h3>
-                    <p class="item-price">Rp 15.000</p>
+                <img src="img/Tempe_Mendoan.png" alt="Tempe Mendoan" class="item-img" onerror="this.style.display='none'">
+                <div class="item-info">
+                    <h3>Tempe Mendoan</h3>
+                    <p class="item-price">Rp 1.500</p>
                 </div>
                 <div class="qty-control">
-                    <button class="qty-btn" onclick="updateQty('Nasi Ayam Geprek', 15000, -1)">-</button>
-                    <input type="number" id="qty-Nasi Ayam Geprek" class="qty-input" value="0" readonly>
-                    <button class="qty-btn" onclick="updateQty('Nasi Ayam Geprek', 15000, 1)">+</button>
+                    <button class="qty-btn" onclick="updateQty('Tempe Mendoan', 1500, -1)">-</button>
+                    <input type="number" id="qty-Tempe Mendoan" class="qty-input" value="0" readonly>
+                    <button class="qty-btn" onclick="updateQty('Tempe Mendoan', 1500, 1)">+</button>
                 </div>
             </div>
 
             <div class="menu-item-card">
-                <img src="img/Nasi_Ayam_Goreng.png" alt="Nasi Ayam Goreng" class="item-img" onclick="window.location.href='ayam-goreng.html'" style="cursor:pointer;">
-                <div class="item-info" onclick="window.location.href='ayam-goreng.html'" style="cursor:pointer;">
-
-                    <span class="badge-custom">✨ Bisa Custom</span>
-
-                    <h3>Nasi Ayam Goreng</h3>
-                    <p class="item-price">Rp 14.000</p>
+                <img src="img/Tahu_Isi.png" alt="Tahu Isi" class="item-img" onerror="this.style.display='none'">
+                <div class="item-info">
+                    <h3>Tahu Isi</h3>
+                    <p class="item-price">Rp 1.500</p>
                 </div>
                 <div class="qty-control">
-                    <button class="qty-btn" onclick="updateQty('Nasi Ayam Goreng', 14000, -1)">-</button>
-                    <input type="number" id="qty-Nasi Ayam Goreng" class="qty-input" value="0" readonly>
-                    <button class="qty-btn" onclick="updateQty('Nasi Ayam Goreng', 14000, 1)">+</button>
+                    <button class="qty-btn" onclick="updateQty('Tahu Isi', 1500, -1)">-</button>
+                    <input type="number" id="qty-Tahu Isi" class="qty-input" value="0" readonly>
+                    <button class="qty-btn" onclick="updateQty('Tahu Isi', 1500, 1)">+</button>
                 </div>
             </div>
 
             <div class="menu-item-card">
-                <img src="img/Nasi_Ayam_Balado.png" alt="Nasi Ayam Balado" class="item-img" onclick="window.location.href='ayam-balado.html'" style="cursor:pointer;">
-                <div class="item-info" onclick="window.location.href='ayam-balado.html'" style="cursor:pointer;">
-
-                    <span class="badge-custom">✨ Bisa Custom</span>
-
-                    <h3>Nasi Ayam Balado</h3>
-                    <p class="item-price">Rp 14.000</p>
+                <img src="img/Pisang_Goreng.png" alt="Pisang Goreng" class="item-img" onerror="this.style.display='none'">
+                <div class="item-info">
+                    <h3>Pisang Goreng</h3>
+                    <p class="item-price">Rp 1.500</p>
                 </div>
                 <div class="qty-control">
-                    <button class="qty-btn" onclick="updateQty('Nasi Ayam Balado', 14000, -1)">-</button>
-                    <input type="number" id="qty-Nasi Ayam Balado" class="qty-input" value="0" readonly>
-                    <button class="qty-btn" onclick="updateQty('Nasi Ayam Balado', 14000, 1)">+</button>
+                    <button class="qty-btn" onclick="updateQty('Pisang Goreng', 1500, -1)">-</button>
+                    <input type="number" id="qty-Pisang Goreng" class="qty-input" value="0" readonly>
+                    <button class="qty-btn" onclick="updateQty('Pisang Goreng', 1500, 1)">+</button>
+                </div>
+            </div>
+
+            <div class="menu-item-card">
+                <img src="img/Bakwan.png" alt="Bakwan" class="item-img" onerror="this.style.display='none'">
+                <div class="item-info">
+                    <h3>Bakwan</h3>
+                    <p class="item-price">Rp 1.500</p>
+                </div>
+                <div class="qty-control">
+                    <button class="qty-btn" onclick="updateQty('Bakwan', 2000, -1)">-</button>
+                    <input type="number" id="qty-Bakwan" class="qty-input" value="0" readonly>
+                    <button class="qty-btn" onclick="updateQty('Bakwan', 2000, 1)">+</button>
                 </div>
             </div>
 

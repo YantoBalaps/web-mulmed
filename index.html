@@ -8,46 +8,34 @@
 </head>
 <body class="start-page-layout">
 
-    <!-- Promo Splash Screen -->
+    <div class="watermark-bg"></div>
+
     <div id="promo-screen" class="promo-screen">
-        <!-- Background Overlay -->
         <div class="promo-overlay"></div>
 
-        <!-- Progress Bar -->
         <div class="promo-progress">
             <div class="promo-progress-bar" id="promo-progress-bar"></div>
         </div>
 
-        <!-- Promo Container -->
         <div class="promo-container">
             <div class="promo-slider" id="promo-slider">
                 <div class="promo-slide active">
                     <div class="promo-image-wrapper">
                         <img src="img/Katalog1.png" alt="Promo 1">
                     </div>
-                    <div class="promo-content">
-                        <h3>Selamat Datang! 🎉</h3>
-                        <p>Nikmati berbagai menu hangat dan lezat dari Warmindo Pojok</p>
-                    </div>
                 </div>
                 <div class="promo-slide">
                     <div class="promo-image-wrapper">
                         <img src="img/Katalog2.png" alt="Promo 2">
                     </div>
-                    <div class="promo-content">
-                        <h3>Promo Spesial 🔥</h3>
-                        <p>Dapatkan berbagai promo menarik setiap hari</p>
-                    </div>
                 </div>
             </div>
 
-            <!-- Navigation Dots -->
             <div class="promo-dots">
                 <span class="promo-dot active" data-slide="0"></span>
                 <span class="promo-dot" data-slide="1"></span>
             </div>
 
-            <!-- Swipe Hint -->
             <div class="promo-hint">
                 <span>Geser untuk melihat promo</span>
                 <div class="promo-arrows">
@@ -57,7 +45,6 @@
             </div>
         </div>
 
-        <!-- Skip Button -->
         <button class="btn-skip-promo" onclick="tutupPromo()">
             Lewati →
         </button>
