@@ -28,6 +28,8 @@
                 
                 <div id="spicy-level" class="spicy-level-container"></div>
 
+                <div id="extra-bubble" class="extra-bubble-container"></div>
+
             </div>
 
             <div class="ingredients-shelf">
@@ -168,6 +170,7 @@
                         
                         updateGambarPiring();
                         updateLevelPedas();
+                        updateEkstraBubble();
 
                         plate.classList.remove('bounce-active');
                         void plate.offsetWidth; // Trik rahasia me-reset animasi seketika
@@ -183,17 +186,57 @@
             };
         }
 
+        // Fungsi memunculkan bubble ekstra (seperti Mie x2)
+        function updateEkstraBubble() {
+            const bubbleContainer = document.getElementById('extra-bubble');
+            if (!bubbleContainer) return;
+            
+            bubbleContainer.innerHTML = ''; // Bersihkan bubble sebelumnya
+            
+            // Cek apakah ada ekstra mie yang ditarik ke piring
+            let jumlahMie = hitungBahan['mie'] || 0;
+            
+            if (jumlahMie > 0) {
+                // Karena dasar makanannya sudah 1 porsi mie, 
+                // jika ditambah 1 ekstra, berarti jadi porsi ke-2 (X2).
+                let totalPorsi = jumlahMie + 1; 
+                
+                let bubble = document.createElement('div');
+                bubble.className = 'bubble-item';
+                
+                // Ambil gambar aslinya dari database menu
+                let bahanMie = dataMenu.pilihanBahan.find(b => b.id === 'mie');
+                let imgSrc = bahanMie ? bahanMie.gambar : 'img/Mie.png';
+                
+                bubble.innerHTML = `
+                    <img src="${imgSrc}" alt="Mie" style="width: 28px !important; height: 28px !important; border-radius: 50%; object-fit: contain; background: #f3f4f6; padding: 2px; margin: 0; display: block;">
+                    <span style="font-size: 14px; font-weight: 800; color: #ff6b35;">X${totalPorsi}</span>
+                `;
+                bubbleContainer.appendChild(bubble);
+            }
+        }
+
         // ==========================================
         // 3. FUNGSI UPDATE GAMBAR & KERANJANG
         // ==========================================
         function updateGambarPiring() {
-            if (bahanPiring.length === 0) {
-                mainImg.src = dataMenu.piringKosong;
-                return;
+            // 🌟 JURUS FILTER UPGRADE: Abaikan 'mie' DAN 'cabai'!
+            // Mie pakai bubble, cabai pakai ikon api. Jadi mereka dilarang merubah gambar piring.
+            let bahanYangMerubahGambar = bahanPiring.filter(function(bahan) {
+                return bahan !== 'mie' && bahan !== 'cabai'; 
+            });
+
+            // Ganti gambar berdasarkan sisa bahan yang ada
+            let imgUtama = document.getElementById('ui-main-img');
+            
+            if (bahanYangMerubahGambar.length === 0) {
+                // Kalau kosong (atau isinya cuma mie/cabai), tampilkan piring polos
+                imgUtama.src = dataMenu.piringKosong;
+            } else {
+                // Kalau ada bahan seperti telur/sosis, gabungkan namanya
+                let bahanSorted = bahanYangMerubahGambar.sort();
+                imgUtama.src = dataMenu.prefixGambar + "-" + bahanSorted.join("-") + ".png";
             }
-            let unikBahan = [...new Set(bahanPiring)];
-            let kombinasi = unikBahan.sort().join('-');
-            mainImg.src = `${dataMenu.prefixGambar}-${kombinasi}.png`;
         }
 
         function resetBahan() {
@@ -207,6 +250,7 @@
                 item.style.display = 'inline-block'; 
             });
             updateLevelPedas();
+            updateEkstraBubble();
         }
 
         function simpanCustomDinamis() {

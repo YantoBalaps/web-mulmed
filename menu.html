@@ -21,41 +21,51 @@
             </div>
         </div>
 
-        <!-- Search -->
+        <!-- Fitur Search -->
         <div class="search-container">
-            <input type="text" class="search-input" placeholder="Cari makanan atau minuman...">
+            <!-- Tambahkan atribut onkeyup agar sistem otomatis mencari setiap kali ada huruf yang diketik -->
+            <input type="text" id="cariMenuInput" class="search-input" placeholder="Cari nama makanan atau minuman..." onkeyup="jalankanPencarian()">
         </div>
 
         <!-- Kategori Makanan -->
         <div class="category-section">
             <h2 class="section-title">Makanan</h2>
             <div class="category-grid">
-                <div class="category-card" onclick="window.location.href='nasi-ayam.html'">
+                <div class="category-card" onclick="window.location.href='nasi-ayam.html'" data-keywords="ayam geprek goreng balado">
                     <span class="card-icon">🍗</span>
                     Nasi Ayam
                 </div>
-                <div class="category-card" onclick="window.location.href='nasi-telur.html'">
+                <div class="category-card" onclick="window.location.href='nasi-telur.html'" data-keywords="telur dadar ceplok sayur">
                     <span class="card-icon">🥗</span>
                     Nasi Telur
                 </div>
-                <div class="category-card" onclick="window.location.href='mie.html'">
+                <div class="category-card" onclick="window.location.href='mie.html'" data-keywords="mie kuah goreng nyemek">
                     <span class="card-icon">🍜</span>
                     Mie
                 </div>
             </div>
         </div>
 
-        <!-- Kategori Minuman -->
         <div class="category-section">
             <h2 class="section-title">Minuman</h2>
             <div class="category-grid">
-                <div class="category-card" onclick="window.location.href='es.html'">
-                    <span class="card-icon">🍧</span>
+                <div class="category-card" onclick="window.location.href='es.html'" data-keywords="es teh jeruk kopi susu nutrisari">
+                    <span class="card-icon">🍹</span>
                     Aneka Es
                 </div>
-                <div class="category-card" onclick="window.location.href='panas.html'">
+                <div class="category-card" onclick="window.location.href='panas.html'" data-keywords="panas teh jeruk kopi susu">
                     <span class="card-icon">☕</span>
                     Aneka Minuman Panas
+                </div>
+            </div>
+        </div>
+
+        <div class="category-section">
+            <h2 class="section-title">Gorengan</h2>
+            <div class="category-grid">
+                <div class="category-card" onclick="window.location.href='gorengan.html'" data-keywords="tempe tahu pisang bakwan">
+                    <span class="card-icon">🥟</span>
+                    Aneka Gorengan
                 </div>
             </div>
         </div>
@@ -63,7 +73,7 @@
         <!-- Footer -->
         <div class="main-footer">
             <p>📍 Gg. Gebang Lama I No.6, Jetis, Wedomartani, Kec. Ngemplak, Kabupaten Sleman, Daerah Istimewa Yogyakarta 55584</p>
-            <p style="font-size: 12px; font-weight: normal; margin-top: 5px;">Buka dari 18.00 - 03.00 • <span class="teks-kuning">Free WiFi</span></p>
+            <p style="font-size: 12px; font-weight: normal; margin-top: 5px;">Buka 24jam • <span class="teks-kuning">Free WiFi</span></p>
         </div>
 
     </div>

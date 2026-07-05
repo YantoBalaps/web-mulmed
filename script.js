@@ -302,7 +302,7 @@ const dataMenuCustom = {
         piringKosong: "img/Ayam_Geprek_Polos.png",
         prefixGambar: "img/ayam-geprek",
         pilihanBahan: [
-            { id: "keju", nama: "Keju", gambar: "img/keju.png", harga: 3000, max: 1 },
+            { id: "keju", nama: "Keju", gambar: "img/Keju.png", harga: 3000, max: 1 },
             { id: "telur", nama: "Telur", gambar: "img/Telur.png", harga: 3000, max: 1 },
             { id: "cabai", nama: "Cabai", gambar: "img/Cabai.png", harga: 0, max: 3 }
         ]
@@ -321,18 +321,18 @@ const dataMenuCustom = {
     "ayam-balado": {
         namaUtama: "Nasi Ayam Balado",
         hargaDasar: 14000,
-        piringKosong: "img/nasi-ayam-balado.png", 
+        piringKosong: "img/Nasi_Ayam_Balado.png", 
         prefixGambar: "img/ayam-balado",
         pilihanBahan: [
             { id: "sosis", nama: "Sosis", gambar: "img/Sosis.png", harga: 2000, max: 1 },
             { id: "telur", nama: "Telur", gambar: "img/Telur.png", harga: 3000, max: 1 },
-            { id: "kornet", nama: "Kornet", gambar: "img/kornet.png", harga: 2500, max: 1 }
+            { id: "naget", nama: "Naget", gambar: "img/Naget.png", harga: 2000, max: 1 }
         ]
     },
     "mie-goreng": {
         namaUtama: "Mie Goreng",
         hargaDasar: 7000,
-        piringKosong: "img/mie-polos.png", 
+        piringKosong: "img/mie-goreng-polos.png", 
         prefixGambar: "img/mie-goreng",
         pilihanBahan: [
             { id: "mie", nama: "Ekstra Mie", gambar: "img/Mie.png", harga: 1500, max: 1 },
@@ -354,8 +354,8 @@ const dataMenuCustom = {
     "mie-nyemek": {
         namaUtama: "Mie Nyemek",
         hargaDasar: 8000,
-        piringKosong: "img/mie-polos.png", 
-        prefixGambar: "img/mie-kuah",
+        piringKosong: "img/Mie_Nyemek.png", 
+        prefixGambar: "img/mie-nyemek",
         pilihanBahan: [
             { id: "mie", nama: "Ekstra Mie", gambar: "img/Mie.png", harga: 1500, max: 1 },
             { id: "telur", nama: "Telur", gambar: "img/Telur.png", harga: 3000, max: 1 },
@@ -369,10 +369,8 @@ const dataMenuCustom = {
         prefixGambar: "img/sayur-ceplok",
         pilihanBahan: [
             { id: "kangkung", nama: "Kangkung", gambar: "img/Kangkung.png", harga: 0, max: 1 },
-            { id: "labu", nama: "Sayur Labu", gambar: "img/Labu.png", harga: 0, max: 1 },
             { id: "tempe", nama: "Tempe Orak Arik", gambar: "img/Tempe.png", harga: 0, max: 1 },
             { id: "terong", nama: "Terong Pedas", gambar: "img/Terong.png", harga: 0, max: 1 },
-            { id: "toge", nama: "Sayur Toge", gambar: "img/Toge.png", harga: 0, max: 1 }
         ]
     },
     "nasi-telur-sayur-dadar": {
@@ -382,10 +380,8 @@ const dataMenuCustom = {
         prefixGambar: "img/sayur-dadar",
         pilihanBahan: [
             { id: "kangkung", nama: "Kangkung", gambar: "img/Kangkung.png", harga: 0, max: 1 },
-            { id: "labu", nama: "Sayur Labu", gambar: "img/Labu.png", harga: 0, max: 1 },
             { id: "tempe", nama: "Tempe Orak Arik", gambar: "img/Tempe.png", harga: 0, max: 1 },
             { id: "terong", nama: "Terong Pedas", gambar: "img/Terong.png", harga: 0, max: 1 },
-            { id: "toge", nama: "Sayur Toge", gambar: "img/Toge.png", harga: 0, max: 1 }
         ]
     },
     "aneka-nutrisari": {
@@ -407,4 +403,46 @@ const dataMenuCustom = {
 function bukaCustom(idMenu) {
     sessionStorage.setItem('menuAktif', idMenu);
     window.location.href = 'bikin-sendiri.html';
+}
+
+// ==========================================
+// FUNGSI PENCARIAN MENU & KATEGORI (SEARCH)
+// ==========================================
+function jalankanPencarian() {
+    let inputEl = document.getElementById('cariMenuInput');
+    if (!inputEl) return; // Mencegah error kalau input search tidak ada di halaman
+    
+    let kataKunci = inputEl.value.toLowerCase();
+    
+    // 1. LOGIKA UNTUK HALAMAN DAFTAR MENU (seperti es.html, gorengan.html)
+    let daftarItem = document.querySelectorAll('.menu-item-card');
+    daftarItem.forEach(function(kartu) {
+        let namaMakanan = kartu.querySelector('h3');
+        if (namaMakanan) {
+            if (namaMakanan.innerText.toLowerCase().includes(kataKunci)) {
+                kartu.style.display = 'flex'; // Munculkan
+            } else {
+                kartu.style.display = 'none'; // Sembunyikan
+            }
+        }
+    });
+
+    // 2. LOGIKA UNTUK HALAMAN KATEGORI UTAMA (menu.html)
+    let daftarKategori = document.querySelectorAll('.category-card');
+    daftarKategori.forEach(function(kartu) {
+        let namaKategori = kartu.innerText.toLowerCase();
+        
+        // 🌟 JURUS BARU: Ambil kata kunci rahasia jika ada
+        let kataKunciTersembunyi = "";
+        if (kartu.hasAttribute('data-keywords')) {
+            kataKunciTersembunyi = kartu.getAttribute('data-keywords').toLowerCase();
+        }
+        
+        // Cek apakah ketikan cocok dengan nama kategori ATAU cocok dengan kata kunci rahasia
+        if (namaKategori.includes(kataKunci) || kataKunciTersembunyi.includes(kataKunci)) {
+            kartu.style.display = ''; // Munculkan
+        } else {
+            kartu.style.display = 'none'; // Sembunyikan
+        }
+    });
 }

@@ -71,26 +71,61 @@ body {
 }
 
 /* =========================================
-   LOGIN / START PAGE
+   LOGIN / START PAGE (GRADASI ELEGAN + WATERMARK)
    ========================================= */
 .start-page-layout {
+    position: relative;
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    background: linear-gradient(135deg, var(--gray-50) 0%, var(--gray-100) 100%);
+    
+    /* 🌟 Gradasi Hangat Ala Warmindo (Krem -> Peach -> Oranye Muda) */
+    background: linear-gradient(-45deg, #fffdf8, #ffe6d5, #ffd0b0, #ffbc94);
+    background-size: 300% 300%;
+    animation: smoothGradient 12s ease infinite;
+    overflow: hidden; 
 }
 
-.start-page-layout header, 
-.start-page-layout footer {
-    height: 60px;
+/* Animasi perpindahan warna gradasi yang sangat halus */
+@keyframes smoothGradient {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
 }
 
+/* Pastikan form login tetap melayang dan berada di atas watermark */
 .start-page-layout main {
     flex: 1;
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 20px;
+    position: relative;
+    z-index: 10; 
+}
+
+/* 🌟 ANIMASI WATERMARK MAKANAN 45 DERAJAT */
+.watermark-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none; /* Agar tidak menghalangi klik ke form login */
+    
+    /* Pola SVG super ringan berisi Mie, Ayam, Es, dan Gorengan. Opacity 0.08 agar samar-samar */
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><text x='20' y='50' font-size='35' opacity='0.08'>🍜</text><text x='100' y='90' font-size='35' opacity='0.08'>🍗</text><text x='25' y='140' font-size='35' opacity='0.08'>🍹</text><text x='95' y='155' font-size='35' opacity='0.08'>🥟</text></svg>");
+    background-repeat: repeat;
+    
+    /* Animasi bergerak tanpa henti selama 15 detik */
+    animation: moveWatermark 15s linear infinite;
+}
+
+/* Trik menghasilkan gerakan miring presisi 45 derajat yang menyambung sempurna! */
+@keyframes moveWatermark {
+    0%   { background-position: 0 0; }
+    100% { background-position: 160px 160px; }
 }
 
 .login-container {
@@ -140,6 +175,15 @@ body {
     box-shadow: 0 0 0 4px rgba(255, 107, 53, 0.1);
 }
 
+/* =========================================
+   ANIMASI DENYUT TOMBOL MASUK
+   ========================================= */
+@keyframes denyutNadi {
+    0%   { transform: scale(1); box-shadow: 0 4px 14px rgba(255, 107, 53, 0.4); }
+    50%  { transform: scale(1.03); box-shadow: 0 10px 25px rgba(255, 107, 53, 0.8); }
+    100% { transform: scale(1); box-shadow: 0 4px 14px rgba(255, 107, 53, 0.4); }
+}
+
 .btn-masuk {
     width: 100%;
     padding: 16px;
@@ -152,10 +196,14 @@ body {
     cursor: pointer;
     transition: all 0.3s ease;
     margin-top: 8px;
-    box-shadow: 0 4px 14px rgba(255, 107, 53, 0.4);
+    
+    /* 🌟 Panggil animasi denyutnya di sini */
+    animation: denyutNadi 2s infinite ease-in-out;
 }
 
 .btn-masuk:hover {
+    /* 🌟 Matikan denyut saat di-hover (disentuh) agar fokus ke efek angkat */
+    animation: none; 
     transform: translateY(-2px);
     box-shadow: 0 6px 20px rgba(255, 107, 53, 0.5);
 }
@@ -171,6 +219,11 @@ body {
     background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
     padding: 24px 20px;
     margin: -20px -20px 24px -20px;
+    
+    /* 🌟 TAMBAHKAN 2 BARIS INI (100% + 20px kiri + 20px kanan) */
+    width: calc(100% + 40px);
+    flex-shrink: 0;
+    
     border-radius: 0 0 var(--radius-xl) var(--radius-xl);
     position: relative;
     overflow: hidden;
@@ -1117,7 +1170,9 @@ body {
     box-shadow: 0 6px 20px rgba(16, 185, 129, 0.5);
 }
 
-/* Badge Custom */
+/* =========================================
+   BADGE BISA CUSTOM (ANIMASI MENGKILAP)
+   ========================================= */
 .badge-custom {
     display: inline-block;
     background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
@@ -1128,6 +1183,59 @@ body {
     border-radius: 20px;
     margin-bottom: 6px;
     box-shadow: 0 2px 8px rgba(255, 107, 53, 0.3);
+    
+    /* 🌟 Kunci untuk efek cahaya */
+    position: relative; 
+    overflow: hidden; /* Agar cahayanya tidak bocor ke luar pinggiran oval */
+}
+
+/* =========================================
+   BADGE BISA CUSTOM (KILAP + NAIK TURUN)
+   ========================================= */
+/* 🌟 Animasi baru untuk efek melayang (naik turun) */
+@keyframes melayang {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-4px); } /* Naik 4 pixel di pertengahan waktu */
+}
+
+.badge-custom {
+    display: inline-block;
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+    color: white;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 20px;
+    margin-bottom: 6px;
+    box-shadow: 0 2px 8px rgba(255, 107, 53, 0.3);
+    
+    position: relative; 
+    overflow: hidden;
+    
+    /* 🌟 Panggil animasi melayangnya di sini (durasi 2.5 detik) */
+    animation: melayang 2.5s infinite ease-in-out;
+}
+
+/* Elemen cahaya putih transparan */
+.badge-custom::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.7), transparent);
+    transform: skewX(-20deg);
+    
+    /* Animasi kilap tetap berjalan mandiri */
+    animation: kilapCahaya 3s infinite;
+}
+
+/* Logika pergerakan cahaya dari kiri ke kanan */
+@keyframes kilapCahaya {
+    0% { left: -100%; }
+    20% { left: 200%; }
+    100% { left: 200%; } 
 }
 
 /* =========================================
@@ -1354,12 +1462,19 @@ body {
 .main-footer {
     background: linear-gradient(135deg, var(--secondary) 0%, var(--accent) 100%);
     padding: 24px 20px;
-    margin: auto 0 0 0;
-    text-align: center;
-    color: white;
-    margin-left: -20px;
+    
+    /* 🌟 PERBAIKI MARGINNYA MENJADI SEPERTI INI */
+    margin-top: auto; 
     margin-right: -20px;
     margin-bottom: -20px;
+    margin-left: -20px;
+    
+    /* 🌟 TAMBAHKAN 2 BARIS INI JUGA */
+    width: calc(100% + 40px);
+    flex-shrink: 0;
+    
+    text-align: center;
+    color: white;
     border-radius: 0 0 var(--radius-xl) var(--radius-xl);
 }
 
@@ -1418,6 +1533,10 @@ body {
     .main-header {
         margin: -40px -40px 32px -40px;
         padding: 32px 40px;
+        
+        width: calc(100% + 80px);
+        flex-shrink: 0;
+        
         border-radius: var(--radius-xl) var(--radius-xl) 0 0;
     }
     
@@ -1427,6 +1546,10 @@ body {
         margin-bottom: -40px;
         margin-left: -40px;
         padding: 32px 40px;
+        
+        width: calc(100% + 80px);
+        flex-shrink: 0;
+        
         border-radius: 0 0 var(--radius-xl) var(--radius-xl);
     }
     
