@@ -299,23 +299,23 @@ const dataMenuCustom = {
     "ayam-geprek": {
         namaUtama: "Nasi Ayam Geprek",
         hargaDasar: 15000,
-        piringKosong: "img/katalog-2.png",
-        prefixGambar: "img/geprek",
+        piringKosong: "img/Ayam_Geprek_Polos.png",
+        prefixGambar: "img/ayam-geprek",
         pilihanBahan: [
-            { id: "keju", nama: "Keju", gambar: "img/keju.png" },
-            { id: "telur", nama: "Telur", gambar: "img/telur.png" },
-            { id: "cabai", nama: "Cabai", gambar: "img/cabai.png" }
+            { id: "keju", nama: "Keju", gambar: "img/keju.png", harga: 3000, max: 1 },
+            { id: "telur", nama: "Telur", gambar: "img/Telur.png", harga: 3000, max: 1 },
+            { id: "cabai", nama: "Cabai", gambar: "img/Cabai.png", harga: 0, max: 3 }
         ]
     },
     "ayam-goreng": {
         namaUtama: "Nasi Ayam Goreng",
         hargaDasar: 14000,
-        piringKosong: "img/nasi-ayam-polos.png", 
+        piringKosong: "img/Nasi_Ayam_Goreng.png", 
         prefixGambar: "img/ayam-goreng",
         pilihanBahan: [
-            { id: "sosis", nama: "Sosis", gambar: "img/sosis.png" },
-            { id: "telur", nama: "Telur", gambar: "img/telur.png" },
-            { id: "kornet", nama: "Kornet", gambar: "img/kornet.png" }
+            { id: "sosis", nama: "Sosis", gambar: "img/Sosis.png", harga: 2000, max: 1 },
+            { id: "telur", nama: "Telur", gambar: "img/Telur.png", harga: 3000, max: 1 },
+            { id: "naget", nama: "Naget", gambar: "img/Naget.png", harga: 2000, max: 1 }
         ]
     },
     "ayam-balado": {
@@ -324,9 +324,9 @@ const dataMenuCustom = {
         piringKosong: "img/nasi-ayam-balado.png", 
         prefixGambar: "img/ayam-balado",
         pilihanBahan: [
-            { id: "sosis", nama: "Sosis", gambar: "img/sosis.png" },
-            { id: "telur", nama: "Telur", gambar: "img/telur.png" },
-            { id: "kornet", nama: "Kornet", gambar: "img/kornet.png" }
+            { id: "sosis", nama: "Sosis", gambar: "img/Sosis.png", harga: 2000, max: 1 },
+            { id: "telur", nama: "Telur", gambar: "img/Telur.png", harga: 3000, max: 1 },
+            { id: "kornet", nama: "Kornet", gambar: "img/kornet.png", harga: 2500, max: 1 }
         ]
     },
     "mie-goreng": {
@@ -335,20 +335,20 @@ const dataMenuCustom = {
         piringKosong: "img/mie-polos.png", 
         prefixGambar: "img/mie-goreng",
         pilihanBahan: [
-            { id: "mie", nama: "Ekstra Mie", gambar: "img/mie-ekstra.png", harga: 1500, max: 2 },
-            { id: "telur", nama: "Telur", gambar: "img/telur.png", harga: 3000, max: 2 },
-            { id: "sayur", nama: "Sayur", gambar: "img/sayur.png", harga: 0, max: 1 } 
+            { id: "mie", nama: "Ekstra Mie", gambar: "img/Mie.png", harga: 1500, max: 1 },
+            { id: "telur", nama: "Telur", gambar: "img/Telur.png", harga: 3000, max: 1 },
+            { id: "sayur", nama: "Sayur", gambar: "img/Sayur.png", harga: 0, max: 1 } 
         ]
     },
     "mie-kuah": {
         namaUtama: "Mie Kuah",
         hargaDasar: 7000,
-        piringKosong: "img/mie-polos.png", 
+        piringKosong: "img/Mie_Kuah_Polos.png", 
         prefixGambar: "img/mie-kuah",
         pilihanBahan: [
-            { id: "mie", nama: "Ekstra Mie", gambar: "img/mie-ekstra.png", harga: 1500, max: 2 },
-            { id: "telur", nama: "Telur", gambar: "img/telur.png", harga: 3000, max: 2 },
-            { id: "sayur", nama: "Sayur", gambar: "img/sayur.png", harga: 0, max: 1 } 
+            { id: "mie", nama: "Ekstra Mie", gambar: "img/Mie.png", harga: 1500, max: 1 },
+            { id: "telur", nama: "Telur", gambar: "img/Telur.png", harga: 3000, max: 1 },
+            { id: "sayur", nama: "Sayur", gambar: "img/Sayur.png", harga: 0, max: 1 } 
         ]
     },
     "mie-nyemek": {
@@ -357,48 +357,48 @@ const dataMenuCustom = {
         piringKosong: "img/mie-polos.png", 
         prefixGambar: "img/mie-kuah",
         pilihanBahan: [
-            { id: "mie", nama: "Ekstra Mie", gambar: "img/mie-ekstra.png", harga: 1500, max: 2 },
-            { id: "telur", nama: "Telur", gambar: "img/telur.png", harga: 3000, max: 2 },
-            { id: "sayur", nama: "Sayur", gambar: "img/sayur.png", harga: 0, max: 1 } 
+            { id: "mie", nama: "Ekstra Mie", gambar: "img/Mie.png", harga: 1500, max: 1 },
+            { id: "telur", nama: "Telur", gambar: "img/Telur.png", harga: 3000, max: 1 },
+            { id: "sayur", nama: "Sayur", gambar: "img/Sayur.png", harga: 0, max: 1 } 
         ]
     },
     "nasi-telur-sayur-ceplok": {
         namaUtama: "Nasi Telur Sayur Ceplok",
         hargaDasar: 10000,
-        piringKosong: "img/nasi-telur-ceplok.png", 
+        piringKosong: "img/Nasi_Telur_Ceplok.png", 
         prefixGambar: "img/sayur-ceplok",
         pilihanBahan: [
-            { id: "kangkung", nama: "Kangkung", gambar: "img/kangkung.png", harga: 0, max: 1 },
-            { id: "labu", nama: "Sayur Labu", gambar: "img/labu.png", harga: 0, max: 1 },
-            { id: "tempe", nama: "Tempe Orak Arik", gambar: "img/tempe.png", harga: 0, max: 1 },
-            { id: "terong", nama: "Terong Pedas", gambar: "img/terong.png", harga: 0, max: 1 },
-            { id: "toge", nama: "Sayur Toge", gambar: "img/toge.png", harga: 0, max: 1 }
+            { id: "kangkung", nama: "Kangkung", gambar: "img/Kangkung.png", harga: 0, max: 1 },
+            { id: "labu", nama: "Sayur Labu", gambar: "img/Labu.png", harga: 0, max: 1 },
+            { id: "tempe", nama: "Tempe Orak Arik", gambar: "img/Tempe.png", harga: 0, max: 1 },
+            { id: "terong", nama: "Terong Pedas", gambar: "img/Terong.png", harga: 0, max: 1 },
+            { id: "toge", nama: "Sayur Toge", gambar: "img/Toge.png", harga: 0, max: 1 }
         ]
     },
     "nasi-telur-sayur-dadar": {
         namaUtama: "Nasi Telur Sayur Dadar",
         hargaDasar: 10000,
-        piringKosong: "img/nasi-telur-dadar.png", 
+        piringKosong: "img/Nasi_Telur_Dadar.png", 
         prefixGambar: "img/sayur-dadar",
         pilihanBahan: [
-            { id: "kangkung", nama: "Kangkung", gambar: "img/kangkung.png", harga: 0, max: 1 },
-            { id: "labu", nama: "Sayur Labu", gambar: "img/labu.png", harga: 0, max: 1 },
-            { id: "tempe", nama: "Tempe Orak Arik", gambar: "img/tempe.png", harga: 0, max: 1 },
-            { id: "terong", nama: "Terong Pedas", gambar: "img/terong.png", harga: 0, max: 1 },
-            { id: "toge", nama: "Sayur Toge", gambar: "img/toge.png", harga: 0, max: 1 }
+            { id: "kangkung", nama: "Kangkung", gambar: "img/Kangkung.png", harga: 0, max: 1 },
+            { id: "labu", nama: "Sayur Labu", gambar: "img/Labu.png", harga: 0, max: 1 },
+            { id: "tempe", nama: "Tempe Orak Arik", gambar: "img/Tempe.png", harga: 0, max: 1 },
+            { id: "terong", nama: "Terong Pedas", gambar: "img/Terong.png", harga: 0, max: 1 },
+            { id: "toge", nama: "Sayur Toge", gambar: "img/Toge.png", harga: 0, max: 1 }
         ]
     },
     "aneka-nutrisari": {
         namaUtama: "Es Nutrisari",
         hargaDasar: 5000,
-        piringKosong: "img/gelas-es.png",
+        piringKosong: "img/Gelas_Es.png",
         prefixGambar: "img/nutrisari",
         mode: "single",
         pilihanBahan: [
-            { id: "jeruk", nama: "Rasa Jeruk Sweet", gambar: "img/sachet-jeruk.png", harga: 0, max: 1 },
-            { id: "melon", nama: "Rasa Melon", gambar: "img/sachet-melon.png", harga: 0, max: 1 },
-            { id: "mangga", nama: "Rasa Mangga", gambar: "img/sachet-mangga.png", harga: 0, max: 1 },
-            { id: "anggur", nama: "Rasa Anggur", gambar: "img/sachet-anggur.png", harga: 0, max: 1 }
+            { id: "jeruk", nama: "Rasa Jeruk Sweet", gambar: "img/Kemasan_Nutrisari_Sweet_Orange.png", harga: 0, max: 1 },
+            { id: "melon", nama: "Rasa Melon", gambar: "img/Kemasan_Nutrisari_Melon.png", harga: 0, max: 1 },
+            { id: "mangga", nama: "Rasa Mangga", gambar: "img/Kemasan_Nutrisari_Mangga.png", harga: 0, max: 1 },
+            { id: "anggur", nama: "Rasa Anggur", gambar: "img/Kemasan_Nutrisari_Anggur.png", harga: 0, max: 1 }
         ]
     }
 };

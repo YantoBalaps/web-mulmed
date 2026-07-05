@@ -20,8 +20,14 @@
                 Tarik bahan-bahan di bawah ini ke atas piringmu!
             </p>
 
-            <div id="plate" class="plate-zone">
-                <img src="" id="ui-main-img" class="main-food-img" alt="Piring Utama">
+            <div style="position: relative;">
+                
+                <div id="plate" class="plate-zone">
+                    <img src="" id="ui-main-img" class="main-food-img" alt="Piring Utama">
+                </div>
+                
+                <div id="spicy-level" class="spicy-level-container"></div>
+
             </div>
 
             <div class="ingredients-shelf">
@@ -66,7 +72,7 @@
         let menuAktifID = sessionStorage.getItem('menuAktif');
         let dataMenu = dataMenuCustom[menuAktifID];
         let bahanPiring = [];
-        let hitungBahan = {}; // BARU: Memori untuk mencatat jumlah tiap bahan
+        let hitungBahan = {}; 
 
         const plate = document.getElementById('plate');
         const mainImg = document.getElementById('ui-main-img');
@@ -83,7 +89,7 @@
 
         const shelf = document.getElementById('ui-shelf');
         dataMenu.pilihanBahan.forEach(bahan => {
-            hitungBahan[bahan.id] = 0; // Set awal hitungan ke 0
+            hitungBahan[bahan.id] = 0; 
 
             let img = document.createElement('img');
             img.src = bahan.gambar;
@@ -91,6 +97,9 @@
             img.setAttribute('data-bahan', bahan.id);
             img.alt = bahan.nama;
             
+            // 🌟 FIX 1: MATIKAN DRAG GAMBAR BAWAAN BROWSER (SANGAT PENTING!)
+            img.ondragstart = function() { return false; };
+
             img.addEventListener('pointerdown', onPointerDown);
             shelf.appendChild(img);
         });
@@ -100,6 +109,10 @@
         // ==========================================
         function onPointerDown(e) {
             const item = e.target;
+            
+            // Tangkap pointer agar tidak nyangkut saat digeser terlalu cepat
+            item.setPointerCapture(e.pointerId);
+
             const shiftX = e.clientX - item.getBoundingClientRect().left;
             const shiftY = e.clientY - item.getBoundingClientRect().top;
 
@@ -119,29 +132,32 @@
 
             document.addEventListener('pointermove', onPointerMove);
 
-            item.onpointerup = function(event) {
+            // 🌟 FIX 2: GUNAKAN document.onpointerup AGAR AMAN SAAT MOUSE DILEPAS DIMANA SAJA
+            document.onpointerup = function(event) {
                 document.removeEventListener('pointermove', onPointerMove);
-                item.onpointerup = null;
+                document.onpointerup = null; // Bersihkan event
+                item.releasePointerCapture(e.pointerId); // Lepaskan tangkapan
 
                 const plateRect = plate.getBoundingClientRect();
                 const itemRect = item.getBoundingClientRect();
 
-                const diDalamPiringX = itemRect.left + itemRect.width/2 > plateRect.left && itemRect.left + itemRect.width/2 < plateRect.right;
-                const diDalamPiringY = itemRect.top + itemRect.height/2 > plateRect.top && itemRect.top + itemRect.height/2 < plateRect.bottom;
+                // Hitung titik tengah bahan
+                const centerX = itemRect.left + itemRect.width / 2;
+                const centerY = itemRect.top + itemRect.height / 2;
+
+                const diDalamPiringX = centerX > plateRect.left && centerX < plateRect.right;
+                const diDalamPiringY = centerY > plateRect.top && centerY < plateRect.bottom;
 
                 if (diDalamPiringX && diDalamPiringY) {
                     const idBahan = item.getAttribute('data-bahan');
                     const bahanInfo = dataMenu.pilihanBahan.find(b => b.id === idBahan);
 
-                    // LOGIKA BARU: Jika mode single, bersihkan gelas dulu sebelum diisi yang baru
                     if (dataMenu.mode === "single") {
-                        bahanPiring = []; // Kosongkan memori gelas
-                        for (let key in hitungBahan) hitungBahan[key] = 0; // Reset hitungan
-                        // Kembalikan semua sachet rasa ke rak
+                        bahanPiring = []; 
+                        for (let key in hitungBahan) hitungBahan[key] = 0; 
                         document.querySelectorAll('.drag-item').forEach(el => el.style.display = 'inline-block');
                     }
 
-                    // Cek apakah belum melebihi kuota batas maksimal
                     if (hitungBahan[idBahan] < bahanInfo.max) {
                         hitungBahan[idBahan]++; 
                         bahanPiring.push(idBahan); 
@@ -151,9 +167,15 @@
                         }
                         
                         updateGambarPiring();
+                        updateLevelPedas();
+
+                        plate.classList.remove('bounce-active');
+                        void plate.offsetWidth; // Trik rahasia me-reset animasi seketika
+                        plate.classList.add('bounce-active');
                     }
                 }
 
+                // Kembalikan bahan ke rak secara visual
                 item.style.position = 'static';
                 item.style.zIndex = 10;
                 item.style.left = 'auto';
@@ -169,35 +191,33 @@
                 mainImg.src = dataMenu.piringKosong;
                 return;
             }
-            let kombinasi = bahanPiring.sort().join('-');
+            let unikBahan = [...new Set(bahanPiring)];
+            let kombinasi = unikBahan.sort().join('-');
             mainImg.src = `${dataMenu.prefixGambar}-${kombinasi}.png`;
         }
 
         function resetBahan() {
             bahanPiring = [];
             for (let key in hitungBahan) {
-                hitungBahan[key] = 0; // Kembalikan semua hitungan jadi 0
+                hitungBahan[key] = 0; 
             }
             mainImg.src = dataMenu.piringKosong;
             const dragItems = document.querySelectorAll('.drag-item');
             dragItems.forEach(item => {
                 item.style.display = 'inline-block'; 
             });
+            updateLevelPedas();
         }
 
         function simpanCustomDinamis() {
             let arrayTambahan = [];
             let hargaTopping = 0;
 
-            // Merakit teks dan menghitung harga masing-masing bahan
             for (let id in hitungBahan) {
                 if (hitungBahan[id] > 0) {
                     const bahanInfo = dataMenu.pilihanBahan.find(b => b.id === id);
-                    
-                    // Kalikan harga bahan dengan jumlah tarikan
                     hargaTopping += (bahanInfo.harga * hitungBahan[id]);
 
-                    // Format teks jika lebih dari 1 (Contoh: "2 Telur")
                     if (hitungBahan[id] > 1) {
                         arrayTambahan.push(`${hitungBahan[id]} ${bahanInfo.nama}`);
                     } else {
@@ -223,6 +243,25 @@
             updateCartUI();
             resetBahan();
             toggleCart();
+        }
+
+        // Fungsi memunculkan icon api sesuai jumlah cabai
+        function updateLevelPedas() {
+            const spicyContainer = document.getElementById('spicy-level');
+            if (!spicyContainer) return;
+            
+            spicyContainer.innerHTML = ''; // Bersihkan api sebelumnya
+            
+            // Cek ada berapa cabai yang sudah masuk
+            let jumlahCabai = hitungBahan['cabai'] || 0;
+            
+            // Munculkan emoji api sebanyak jumlah cabai
+            for (let i = 0; i < jumlahCabai; i++) {
+                let api = document.createElement('span');
+                api.className = 'fire-icon';
+                api.innerText = '🔥';
+                spicyContainer.appendChild(api);
+            }
         }
     </script>
 </body>
