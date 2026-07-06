@@ -387,7 +387,7 @@ const dataMenuCustom = {
     "aneka-nutrisari": {
         namaUtama: "Es Nutrisari",
         hargaDasar: 5000,
-        piringKosong: "img/Gelas_Es.png",
+        piringKosong: "img/Gelas_es.png",
         prefixGambar: "img/nutrisari",
         mode: "single",
         pilihanBahan: [
