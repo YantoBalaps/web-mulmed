@@ -2007,3 +2007,49 @@ body {
 .bounce-active {
     animation: bouncePlate 0.4s ease-out !important;
 }
+
+/* =========================================
+   EFEK BUBBLE EKSTRA (CONTOH: MIE X2)
+   ========================================= */
+.extra-bubble-container {
+    position: absolute;
+    bottom: -5px;   /* Menggantung sedikit di bawah piring */
+    right: -10px;   /* Menempel di kanan bawah piring */
+    z-index: 20;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    pointer-events: none; /* Agar tidak mengganggu saat narik bahan */
+}
+
+.bubble-item {
+    background: var(--white);
+    border-radius: 30px;
+    padding: 4px 12px 4px 4px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+    border: 2px solid var(--primary); /* Garis pinggir warna oranye Warmindo */
+    animation: bubblePop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Animasi membal */
+}
+
+.bubble-item img {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    object-fit: contain;
+    background: var(--gray-50);
+    padding: 2px;
+}
+
+.bubble-item span {
+    font-size: 14px;
+    font-weight: 800;
+    color: var(--primary);
+}
+
+@keyframes bubblePop {
+    0% { transform: scale(0); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
